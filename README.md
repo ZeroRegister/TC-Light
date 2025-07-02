@@ -1,5 +1,6 @@
 <p align="center">
-<h1 align="center"><strong> TC-Light: Temporally Consistent Relighting for Dynamic Long Videos</strong></h1>
+<h1 align="center"><strong> TC-Light: Temporally Coherent Generative
+Rendering for Realistic World Transfer</strong></h1>
   <p align="center">
     <em>Institute of Automation, Chinese Academy of Sciences; University of Chinese Academy of Sciences</em>
   </p>
@@ -15,12 +16,12 @@
 
 https://github.com/user-attachments/assets/9d09cdbf-72dc-42ac-8104-1d40cab1551f
 
-This repo contains official implementations of **TC-Light**, a one-shot model used to manipulate the illumination of **high-dynamic videos** such as motion-rich actions and frequent switch of foreground and background objects. It is distinguished by:
+This repo contains official implementations of **TC-Light**, a one-shot model used to manipulate the illumination distribution of video and realize **realistic world transfer**. It's especially suitable for **high-dynamic videos** such as motion-rich actions and frequent switch of foreground and background objects. It is distinguished by:
 
 - 🔥 Outstanding Temporal Consistency on Highly Dynamic Scenarios.
 - 🔥 Superior Computational Efficiency that Enables Long Video Processing (can process 300 frames with resolution of 1280x720 on 40G A100).
 
-These features make it particularly suitable for sim2real and real2real augmentation for Embodied Agents or preparing video pairs to train stronger video relighting models. Star ⭐ us if you like it!
+These features make it particularly valuable for sim2real and real2real augmentation for Embodied Agents or preparing video pairs to train stronger video relighting models. Star ⭐ us if you like it!
 
 ## 💡 Method
 
