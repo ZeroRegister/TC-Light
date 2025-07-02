@@ -14,7 +14,7 @@ Rendering for Realistic World Transfer</strong></h1>
 
 </div>
 
-https://github.com/user-attachments/assets/e8b905bb-0efa-4c73-a885-b05529eb1d3b
+https://github.com/user-attachments/assets/9fc9c6ce-a83c-4ca5-9273-7cb672c99452
 
 This repo contains official implementations of **TC-Light**, a one-shot model used to manipulate the illumination distribution of video and realize **realistic world transfer**. It's especially suitable for **high-dynamic videos** such as motion-rich actions and frequent switch of foreground and background objects. It is distinguished by:
 
