@@ -1,5 +1,5 @@
 <p align="center">
-<h1 align="center"><strong> TC-Light: Temporally Coherent Generative
+<h1 align="center"><strong> [NeurIPS`2025] TC-Light: Temporally Coherent Generative
 Rendering for Realistic World Transfer</strong></h1>
   <p align="center">
     <em>Institute of Automation, Chinese Academy of Sciences; University of Chinese Academy of Sciences</em>
@@ -23,6 +23,11 @@ This repo contains official implementations of **TC-Light**, a one-shot model us
 - 🔥 Superior Computational Efficiency that Enables Long Video Processing (can process 300 frames with resolution of 1280x720 on 40G A100).
 
 These features make it particularly valuable for sim2real and real2real augmentation for Embodied Agents or preparing video pairs to train stronger video relighting models. Star ⭐ us if you like it!
+
+## 📰 News
+**[2025.09.08]** 👏 TC-Light has been accepted by ICLR 2025!
+
+**[2025.06.23]** The code and paper of TC-Light are released!
 
 ## 💡 Method
 
