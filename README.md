@@ -116,10 +116,12 @@ python evaluate.py --output_dir path/to/your_output_dir --eval_cost
 ## 🤗 Citation
 If you find this repository useful for your research, please use the following BibTeX entry for citation.
 
-    @Misc{tclight,
-      author = {Yang Liu, Chuanchen Luo, Zimo Tang, Yingyan Li, Yuran Yang, Yuanyong Ning, Lue Fan, Junran Peng, Zhaoxiang Zhang},
-      title  = {TC-Light GitHub Page},
-      year   = {2025},
+    @inproceedings{
+        liu2025tclight
+        title={TC-Light: Temporally Coherent Generative Rendering for Realistic World Transfer},
+        author={Yang Liu, Chuanchen Luo, Zimo Tang, Yingyan Li, Yuran Yang, Yuanyong Ning, Lue Fan, Junran Peng, Zhaoxiang Zhang},
+        booktitle={The Thirty-Ninth Annual Conference on Neural Information Processing Systems},
+        year={2025},
     }
 
 ## 👏 Acknowledgements
