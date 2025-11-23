@@ -1,3 +1,4 @@
+[中文阅读](README_zh.md)
 <p align="center">
 <h1 align="center"><strong> [NeurIPS`2025] TC-Light: Temporally Coherent Generative
 Rendering for Realistic World Transfer</strong></h1>
