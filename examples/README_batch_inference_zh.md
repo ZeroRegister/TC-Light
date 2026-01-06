@@ -73,7 +73,76 @@ git clone https://huggingface.co/lllyasviel/control_v11p_sd15_seg /data/models/c
 
 ---
 
-## 3. 使用方法
+## 3. 环境配置
+
+本项目需要 PyTorch (CUDA 版本) 和相关依赖。以下指南适用于 **8卡 A6000 + CUDA 12.x** 环境，使用国内镜像源。
+
+### 3.1 配置 pip 国内镜像源
+
+首先配置 pip 使用清华镜像源：
+
+```bash
+# 创建或编辑 pip 配置文件
+mkdir -p ~/.pip
+cat > ~/.pip/pip.conf << EOF
+[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+trusted-host = pypi.tuna.tsinghua.edu.cn
+EOF
+```
+
+### 3.2 创建 Conda 环境 (推荐)
+
+```bash
+# 创建新的 conda 环境
+conda create -n tclight python=3.10 -y
+conda activate tclight
+```
+
+### 3.3 安装 PyTorch (CUDA 12.x)
+
+使用清华/阿里云镜像安装 PyTorch CUDA 12.1 版本：
+
+```bash
+# 方法一：使用 pip + 清华镜像 (推荐)
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 方法二：使用 conda + 清华镜像
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch
+conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+```
+
+验证安装：
+```bash
+python -c "import torch; print(f'PyTorch: {torch.__version__}, CUDA: {torch.cuda.is_available()}, Devices: {torch.cuda.device_count()}')"
+# 预期输出: PyTorch: 2.x.x+cu121, CUDA: True, Devices: 8
+```
+
+### 3.4 安装项目依赖
+
+```bash
+# 进入项目目录
+cd /home/fch/research/video_gen/TC-Light
+
+# 安装 requirements.txt 中的依赖 (使用清华源)
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 如果 torch_scatter 安装失败，单独安装
+pip install torch_scatter -f https://data.pyg.org/whl/torch-2.1.0+cu121.html -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+### 3.5 常见问题
+
+| 问题 | 解决方案 |
+| :--- | :--- |
+| `torch_scatter` 安装失败 | 使用 `pip install torch_scatter -f https://data.pyg.org/whl/torch-{TORCH_VERSION}+{CUDA_VERSION}.html` |
+| `xformers` 未安装 | `pip install xformers -i https://pypi.tuna.tsinghua.edu.cn/simple` (可选，用于加速) |
+| CUDA 版本不匹配 | 确保 `nvcc --version` 输出的 CUDA 版本与 PyTorch 编译版本兼容 |
+
+---
+
+## 4. 使用方法
 
 该脚本支持在单机多卡（单台服务器，8张卡）环境下运行。
 
