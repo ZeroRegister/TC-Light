@@ -33,12 +33,42 @@ TC-Light 是一个基于视频生成的 Sim2Real（从模拟到真实）框架�
 
 ---
 
-## 2. 环境准备
+## 2. 模型权重下载（手动）
 
-确保你已经安装了必要的依赖（如 `omegaconf`）：
+由于服务器网络环境限制，请手动下载以下模型权重，然后放置到服务器的指定目录。
+
+### 必需模型
+
+| 模型名称 | HuggingFace 地址 | 推荐本地保存路径 |
+| :--- | :--- | :--- |
+| **Stable Diffusion v1.5** | [runwayml/stable-diffusion-v1-5](https://huggingface.co/runwayml/stable-diffusion-v1-5) | `/data/models/stable-diffusion-v1-5` |
+
+### ControlNet 模型 (按需下载)
+
+根据你使用的 `--control_type` 下载对应的 ControlNet 模型：
+
+| ControlNet 类型 | HuggingFace 地址 | 推荐本地保存路径 |
+| :--- | :--- | :--- |
+| `seg` (语义分割) | [lllyasviel/control_v11p_sd15_seg](https://huggingface.co/lllyasviel/control_v11p_sd15_seg) | `/data/models/control_v11p_sd15_seg` |
+| `depth` (深度) | [lllyasviel/control_v11f1p_sd15_depth](https://huggingface.co/lllyasviel/control_v11f1p_sd15_depth) | `/data/models/control_v11f1p_sd15_depth` |
+| `softedge` (软边缘) | [lllyasviel/control_v11p_sd15_softedge](https://huggingface.co/lllyasviel/control_v11p_sd15_softedge) | `/data/models/control_v11p_sd15_softedge` |
+| `canny` (Canny 边缘) | [lllyasviel/control_v11p_sd15_canny](https://huggingface.co/lllyasviel/control_v11p_sd15_canny) | `/data/models/control_v11p_sd15_canny` |
+
+### 下载方法
+
+推荐使用 `huggingface-cli` 或 `git lfs`:
 
 ```bash
-pip install omegaconf
+# 方法一：使用 huggingface-cli (推荐)
+pip install huggingface_hub
+huggingface-cli download runwayml/stable-diffusion-v1-5 --local-dir /data/models/stable-diffusion-v1-5
+
+huggingface-cli download lllyasviel/control_v11p_sd15_seg --local-dir /data/models/control_v11p_sd15_seg
+
+# 方法二：使用 git lfs (需要安装 git-lfs)
+git lfs install
+git clone https://huggingface.co/runwayml/stable-diffusion-v1-5 /data/models/stable-diffusion-v1-5
+git clone https://huggingface.co/lllyasviel/control_v11p_sd15_seg /data/models/control_v11p_sd15_seg
 ```
 
 ---
@@ -54,8 +84,10 @@ pip install omegaconf
 | `--video_dir` | **[必填]** 输入视频文件夹路径 | `/path/to/sim_videos` |
 | `--prompt_dir` | **[必填]** 提示词 txt 文件夹路径 | `/path/to/prompts` |
 | `--output_dir` | **[必填]** 结果保存路径 | `/path/to/results` |
+| `--sd_model_path` | **[关键]** SD 模型本地路径 | `/data/models/stable-diffusion-v1-5` |
+| `--controlnet_path` | **[关键]** ControlNet 模型本地路径 | `/data/models/control_v11p_sd15_seg` |
 | `--base_config` | 基础配置文件路径 (默认 `configs/tclight_default.yaml`) | `configs/tclight_default.yaml` |
-| `--control_type` | ControlNet 类型 | `seg` (分割), `depth` (深度), `softedge` (软边缘), `none` |
+| `--control_type` | ControlNet 类型 | `seg`, `depth`, `softedge`, `none` |
 | `--seed` | 随机种子 (默认 12345) | `42` |
 
 ### 运行示例
@@ -66,11 +98,13 @@ pip install omegaconf
 # 进入项目根目录
 cd /home/fch/research/video_gen/TC-Light
 
-# 启动 8 卡并行推理
+# 启动 8 卡并行推理 (使用本地模型)
 torchrun --nproc_per_node=8 examples/batch_inference.py \
     --video_dir /data/sim_videos \
     --prompt_dir /data/sim_prompts \
     --output_dir /data/sim2real_results \
+    --sd_model_path /data/models/stable-diffusion-v1-5 \
+    --controlnet_path /data/models/control_v11p_sd15_seg \
     --control_type seg \
     --base_config configs/tclight_default.yaml
 ```

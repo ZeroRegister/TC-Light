@@ -58,6 +58,9 @@ def main():
     parser.add_argument("--base_config", type=str, default="configs/tclight_default.yaml", help="Path to base config file")
     parser.add_argument("--control_type", type=str, default="depth", help="ControlNet type (e.g., depth, softedge, seg, or none)")
     parser.add_argument("--seed", type=int, default=12345, help="Random seed")
+    # === Local Model Paths ===
+    parser.add_argument("--sd_model_path", type=str, default=None, help="Local path to Stable Diffusion model (e.g., /models/stable-diffusion-v1-5)")
+    parser.add_argument("--controlnet_path", type=str, default=None, help="Local path to ControlNet model (e.g., /models/control_v11p_sd15_seg)")
     
     args = parser.parse_args()
     
@@ -75,12 +78,17 @@ def main():
     
     # Initialize Model (One per process)
     seed_everything(base_config.seed)
+    
+    # Use local SD model path if provided, otherwise use config's model_key
+    sd_model_to_use = args.sd_model_path if args.sd_model_path else base_config.model_key
+    
     pipe, scheduler, model_key = init_model(
         base_config.device, 
         base_config.sd_version, 
-        base_config.model_key, 
+        sd_model_to_use, 
         base_config.generation.control, 
-        base_config.float_precision
+        base_config.float_precision,
+        controlnet_path=args.controlnet_path
     )
     base_config.model_key = model_key
     

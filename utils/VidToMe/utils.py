@@ -16,8 +16,18 @@ from einops import rearrange
 FRAME_EXT = [".jpg", ".png", ".JPG", ".PNG"]
 
 
-def init_model(device="cuda", sd_version="1.5", model_key=None, control_type="none", weight_dtype="fp16"):
-
+def init_model(device="cuda", sd_version="1.5", model_key=None, control_type="none", weight_dtype="fp16", controlnet_path=None):
+    """
+    Initialize model pipeline.
+    
+    Args:
+        device: Device to load model on.
+        sd_version: Stable Diffusion version ('1.5', '2.0', '2.1', 'depth').
+        model_key: Path to SD model (can be local path or HuggingFace repo).
+        control_type: ControlNet type ('none', 'pnp', 'depth', 'seg', etc.).
+        weight_dtype: Weight precision ('fp16' or 'fp32').
+        controlnet_path: Local path to ControlNet model. If None, uses HuggingFace repo from CONTROLNET_DICT.
+    """
     use_depth = False
     if model_key is None:
         if sd_version == '2.1':
@@ -46,7 +56,8 @@ def init_model(device="cuda", sd_version="1.5", model_key=None, control_type="no
         weight_dtype = torch.float32
 
     if control_type not in ["none", "pnp"]:
-        controlnet_key = CONTROLNET_DICT[control_type]
+        # Use local controlnet_path if provided, otherwise use HuggingFace repo
+        controlnet_key = controlnet_path if controlnet_path else CONTROLNET_DICT[control_type]
         print(f'[INFO] loading controlnet from: {controlnet_key}')
         controlnet = ControlNetModel.from_pretrained(
             controlnet_key, torch_dtype=weight_dtype)
@@ -60,7 +71,6 @@ def init_model(device="cuda", sd_version="1.5", model_key=None, control_type="no
         )
     else:
         pipe = StableDiffusionPipeline.from_pretrained(
-            # model_key, torch_dtype=weight_dtype
             model_key, torch_dtype=weight_dtype,
         )
 
