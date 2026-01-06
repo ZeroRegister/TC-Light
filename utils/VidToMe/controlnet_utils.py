@@ -21,8 +21,7 @@ CONTROLNET_DICT = {
     "softedge": "lllyasviel/control_v11p_sd15_softedge",
     "depth": "lllyasviel/control_v11f1p_sd15_depth",
     "lineart_anime": "lllyasviel/control_v11p_sd15s2_lineart_anime",
-    "canny": "lllyasviel/control_v11p_sd15_canny",
-    "seg": "lllyasviel/control_v11p_sd15_seg"
+    "canny": "lllyasviel/control_v11p_sd15_canny"
 }
 
 processor_cache = dict()
@@ -88,8 +87,7 @@ PREPROCESS_DICT = {
     "softedge": softedge_prepreocess,
     "depth": depth_prepreocess,
     "lineart_anime": lineart_anime_prepreocess,
-    "canny": canny_preprocess,
-    "seg": lambda image, **kwargs: process(image, "seg")
+    "canny": canny_preprocess
 }
 
 def control_preprocess(images, control_type, **kwargs):
